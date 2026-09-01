@@ -1,0 +1,16 @@
+services:
+  api:
+    build: .
+    environment:
+      DATABASE_URL: sqlite:////data/adaptive_lab.db
+      OLLAMA_BASE_URL: http://host.docker.internal:11434
+      CORS_ORIGINS: http://localhost:3000
+      AUTO_SEED: "true"
+    ports: ["8000:8000"]
+    volumes: ["lab_data:/data"]
+  web:
+    build: ./web
+    ports: ["3000:80"]
+    depends_on: [api]
+volumes:
+  lab_data:
